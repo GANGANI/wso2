@@ -31,6 +31,7 @@ import sun.security.x509.X509CertImpl;
 import java.security.Principal;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import org.cryptacular.util.CertUtil;
 
 /**
  * X509 grant type for Identity Server
@@ -115,12 +116,15 @@ public class X509GrantHandler extends AbstractAuthorizationGrantHandler  {
 
             Principal principal = x509Certificate.getSubjectDN();
 
-            String subjectDN = principal.getName();
 
-            if(subjectDN.contains("CN=soasecurity.org")) {
+            String subjectDN = principal.getName();
+            String subjectCN = CertUtil.subjectCN(x509Certificate);
+            log.info("Username is retrieved from subjectDN : " + subjectCN);
+
+            //if(subjectDN.contains("CN=soasecurity.org")) {
                 // username related to the certificate
-                return "asela";
-            }
+                return subjectCN;
+            //}
 
         } catch (CertificateException e) {
             log.error(e);
