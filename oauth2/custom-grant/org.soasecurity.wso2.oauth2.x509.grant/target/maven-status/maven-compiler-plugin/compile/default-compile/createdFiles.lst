@@ -1,2 +1,2 @@
-org/soasecurity/wso2/oauth2/x509/grant/X509GrantHandler.class
-org/soasecurity/wso2/oauth2/x509/grant/X509GrantValidator.class
+org/uberatg/sample/oauth2/x509/grant/X509GrantValidator.class
+org/uberatg/sample/oauth2/x509/grant/X509GrantHandler.class

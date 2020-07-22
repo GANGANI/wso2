@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.soasecurity.wso2.oauth2.x509.grant;
+package org.uberatg.sample.oauth2.x509.grant;
 
 import org.apache.oltu.oauth2.common.validators.AbstractValidator;
 
@@ -28,10 +28,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class X509GrantValidator extends AbstractValidator<HttpServletRequest> {
 
-
     public X509GrantValidator() {
-
-        // mobile number must be in the request parameter
+        // X509 grant param must be in the request parameter
         requiredParams.add(X509GrantHandler.X509_GRANT_PARAM);
     }
 }

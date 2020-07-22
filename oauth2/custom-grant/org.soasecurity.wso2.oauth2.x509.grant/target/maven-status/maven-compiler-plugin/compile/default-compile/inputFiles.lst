@@ -1,2 +1,2 @@
-/Users/kasuniranasinghe/Documents/Issue_folder/POC_Issues/UBERATGSUB-11/wso2/oauth2/custom-grant/org.soasecurity.wso2.oauth2.x509.grant/src/main/java/org/soasecurity/wso2/oauth2/x509/grant/X509GrantValidator.java
-/Users/kasuniranasinghe/Documents/Issue_folder/POC_Issues/UBERATGSUB-11/wso2/oauth2/custom-grant/org.soasecurity.wso2.oauth2.x509.grant/src/main/java/org/soasecurity/wso2/oauth2/x509/grant/X509GrantHandler.java
+/Users/kasuniranasinghe/Documents/Issue_folder/POC_Issues/UBERATGSUB-11/wso2/oauth2/custom-grant/org.soasecurity.wso2.oauth2.x509.grant/src/main/java/org/uberatg/sample/oauth2/x509/grant/X509GrantValidator.java
+/Users/kasuniranasinghe/Documents/Issue_folder/POC_Issues/UBERATGSUB-11/wso2/oauth2/custom-grant/org.soasecurity.wso2.oauth2.x509.grant/src/main/java/org/uberatg/sample/oauth2/x509/grant/X509GrantHandler.java

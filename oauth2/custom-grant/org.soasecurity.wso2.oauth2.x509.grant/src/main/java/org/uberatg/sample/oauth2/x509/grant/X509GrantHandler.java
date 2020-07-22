@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.soasecurity.wso2.oauth2.x509.grant;
+package org.uberatg.sample.oauth2.x509.grant;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
@@ -27,7 +27,6 @@ import org.wso2.carbon.identity.oauth2.token.OAuthTokenReqMessageContext;
 import org.wso2.carbon.identity.oauth2.token.handlers.grant.AbstractAuthorizationGrantHandler;
 import org.wso2.carbon.identity.oauth2.util.OAuth2Util;
 import sun.security.x509.X509CertImpl;
-
 import java.security.Principal;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -39,24 +38,18 @@ import org.cryptacular.util.CertUtil;
 public class X509GrantHandler extends AbstractAuthorizationGrantHandler  {
 
     private static Log log = LogFactory.getLog(X509GrantHandler.class);
-
-
     public static final String X509_GRANT_PARAM = "x509";
 
     @Override
     public boolean validateGrant(OAuthTokenReqMessageContext oAuthTokenReqMessageContext)  throws IdentityOAuth2Exception {
 
         log.info("X.509 Grant handler is invoked");
-
         boolean authStatus = false;
-
         // extract request parameters
         RequestParameter[] parameters = oAuthTokenReqMessageContext.getOauth2AccessTokenReqDTO().getRequestParameters();
-
         String certParam = null;
         String subjectDN = null;
-
-        // find out mobile number
+        // find out subjectDN
         for(RequestParameter parameter : parameters){
             if(X509_GRANT_PARAM.equals(parameter.getKey())){
                 if(parameter.getValue() != null && parameter.getValue().length > 0){
@@ -70,18 +63,16 @@ public class X509GrantHandler extends AbstractAuthorizationGrantHandler  {
         }
 
         String username = null;
-
         if(subjectDN != null) {
             username = subjectDN;
-            log.info("Username is retrieved from Subject DN : " + username);
+            log.debug("Username is retrieved from Subject DN : " + username);
         } else {
             if (certParam != null) {
                 //validate certificate number
                 username = validCertificate(certParam);
-                log.info("Username is retrieved from Certificate : " + username);
+                log.debug("Username is retrieved from Certificate : " + username);
             }
         }
-
         if(username != null) {
             // if valid set authorized mobile number as grant user
             AuthenticatedUser user = OAuth2Util.getUserFromUserName(username);
@@ -90,7 +81,6 @@ public class X509GrantHandler extends AbstractAuthorizationGrantHandler  {
             oAuthTokenReqMessageContext.setScope(oAuthTokenReqMessageContext.getOauth2AccessTokenReqDTO().getScope());
             authStatus = true;
         }
-
         return authStatus;
     }
 
@@ -104,10 +94,6 @@ public class X509GrantHandler extends AbstractAuthorizationGrantHandler  {
      * @return
      */
     protected String validCertificate(String certificate){
-
-        // just demo validation
-
-
         // retrieve the certificate object
         byte[] byteArray = Base64.decodeBase64(certificate);
 
@@ -115,19 +101,14 @@ public class X509GrantHandler extends AbstractAuthorizationGrantHandler  {
             X509Certificate x509Certificate = new X509CertImpl(byteArray);
 
             Principal principal = x509Certificate.getSubjectDN();
-
-
             String subjectDN = principal.getName();
             String subjectCN = CertUtil.subjectCN(x509Certificate);
-            log.info("Username is retrieved from subjectDN : " + subjectCN);
+            log.debug("Username is retrieved from subjectCN : " + subjectCN);
 
-            //if(subjectDN.contains("CN=soasecurity.org")) {
-                // username related to the certificate
-                return subjectCN;
-            //}
-
+            return subjectCN;
         } catch (CertificateException e) {
-            log.error(e);
+
+            log.error("Error in retrieving username from certificate Subject CN ",e);
         }
 
         return null;
@@ -137,17 +118,11 @@ public class X509GrantHandler extends AbstractAuthorizationGrantHandler  {
             throws IdentityOAuth2Exception {
 
         return true;
-
     }
-
-
     public boolean validateScope(OAuthTokenReqMessageContext tokReqMsgCtx)
             throws IdentityOAuth2Exception {
 
         return true;
     }
-
 }
 
-
-//return all the sessions and sp name
