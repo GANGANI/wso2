@@ -17,7 +17,7 @@
  */
 
 
-package org.soasecurity.mutual.ssl.filter;
+package org.uberatgsub.mutual.ssl.filter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -29,16 +29,12 @@ import java.util.*;
 public class X509HTTPServletWrapper extends HttpServletRequestWrapper {
 
     private String subjectDN;
-
     private String x509;
-
     private Enumeration<String> parameterNames;
-
 
     public X509HTTPServletWrapper(HttpServletRequest request, String subjectDN, String x509) {
 
         super(request);
-
         this.subjectDN = subjectDN;
 
         //add new parameter to name list
@@ -49,24 +45,18 @@ public class X509HTTPServletWrapper extends HttpServletRequestWrapper {
         }
         parameterNameSet.add("subjectDN");
         parameterNameSet.add("x509");
-
         this.x509 = x509;
         this.parameterNames = Collections.enumeration(parameterNameSet);
-
-
     }
 
     @Override
     public String getParameter(String name) {
-
         if("subjectDN".equalsIgnoreCase(name)){
             return subjectDN;
         }
-
         if("x509".equalsIgnoreCase(name)){
             return x509;
         }
-
         return super.getParameter(name);
     }
 
@@ -77,15 +67,12 @@ public class X509HTTPServletWrapper extends HttpServletRequestWrapper {
 
     @Override
     public String[] getParameterValues(String name) {
-
         if("subjectDN".equalsIgnoreCase(name)){
             return new String[]{ subjectDN };
         }
-
         if("x509".equalsIgnoreCase(name)){
             return new String[]{ x509 };
         }
-
         return super.getParameterValues(name);
     }
 }

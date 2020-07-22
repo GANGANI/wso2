@@ -17,7 +17,7 @@
  */
 
 
-package org.soasecurity.mutual.ssl.filter;
+package org.uberatgsub.mutual.ssl.filter;
 
 
 import java.io.IOException;
@@ -31,7 +31,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
@@ -49,14 +48,10 @@ public class MutualSSLFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
 
         log.debug("Mutual SSL Filter is invoked.");
-
         X509Certificate[] certs = (X509Certificate[])request.getAttribute("javax.servlet.request.X509Certificate");
-
         if(certs != null){
-
             // client certificate must be first certificate in the chain
             X509Certificate clientCert = certs[0];
-
             // encode certificate
             String certificateData = "";
             try {
@@ -64,21 +59,15 @@ public class MutualSSLFilter implements Filter {
             } catch (CertificateEncodingException e) {
                 log.error("Error while encoding the certificate", e);
             }
-
             Principal principal = clientCert.getSubjectDN();
-
             String subjectDN = principal.getName();
-
             log.debug("Mutual Authentication is success full with subject : " + subjectDN);
-
             // creating new wrapper to set a new parameter
             X509HTTPServletWrapper wrapper = new X509HTTPServletWrapper((HttpServletRequest)request, subjectDN,
                     certificateData);
-
             chain.doFilter(wrapper, response);
-
-        } else {
-
+        }
+        else {
             chain.doFilter(request, response);
         }
 	}
@@ -86,9 +75,8 @@ public class MutualSSLFilter implements Filter {
 	@Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
-    
-	@Override
+
+    @Override
     public void destroy() {
     }
-
 }
